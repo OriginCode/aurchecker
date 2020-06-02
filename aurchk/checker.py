@@ -3,6 +3,7 @@ import git
 import pyalpm
 import asyncio
 from pathlib import Path
+from termcolor import colored
 
 # Use vercmp from pyalpm to compare the old version and the new version fetched.
 class checker():
@@ -26,8 +27,16 @@ class checker():
     # After chkVer, if the package has a new version, show the result and clone the repo into the pkgClonePath given in the config.
     async def postChk(self, pkgname):
         if self.chkResult[pkgname]:
-            print(pkgname + ': '+ self.oldVerDict[pkgname] + ' => ' + self.newVerDict[pkgname])
-            git.Git(self.pkgClonePath).clone("https://aur.archlinux.org/{pkgname}.git".format(pkgname=pkgname))
-            print("Cloned the repo of " + pkgname)
+            print(pkgname + ': ' + colored(self.oldVerDict[pkgname], 'red', attrs=['bold']) + colored(' => ', 'white', attrs=['bold']) + colored(self.newVerDict[pkgname], 'green', attrs=['bold']))
+            
+            if (pkgPath := self.pkgClonePath.joinpath(pkgname)).exists():
+                git.cmd.Git(pkgPath).pull()
+                print(colored('Updated the repo of ', 'green') + pkgname)
+            else:
+                git.cmd.Git(self.pkgClonePath).clone("https://aur.archlinux.org/{pkgname}.git".format(pkgname=pkgname))
+                print(colored('Cloned the repo of ', 'cyan') + pkgname)
+
             with open(self.pkgListPath, 'w') as f:
                 f.write(json.dumps(self.newVerDict, indent=4))
+        else:
+            print(pkgname + ': ' + colored('Up to date!', 'green', attrs=['bold']) + colored('(' + self.oldVerDict[pkgname] + ')', 'grey', attrs=['dark', 'bold']))

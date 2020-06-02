@@ -1,5 +1,6 @@
 import aiohttp
 import asyncio
+from termcolor import colored
 
 from aurchk.checker import checker
 from aurchk.cfgLoad import cfgLoad
@@ -18,7 +19,7 @@ async def main():
     async with aiohttp.ClientSession() as session:
         await asyncio.gather(*[chk.chkVer(pkgname, await fetch(session, pkgname)) for pkgname in oldVerDict])
 
-    print('New versions available for these packages:')
+    print(colored('::', 'cyan', attrs=['bold']) + ' ' + colored('Checking updates...', attrs=['bold']))
     await asyncio.gather(*[chk.postChk(pkgname) for pkgname in oldVerDict])
     
 # Create the asyncio loop and run main().
