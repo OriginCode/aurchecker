@@ -22,8 +22,7 @@ setup(
         install_requires=[
             'pyalpm',
             'GitPython',
-            'aiohttp',
-            'argparse'
+            'aiohttp'
         ],
         python_requires='>=3.8'
 )

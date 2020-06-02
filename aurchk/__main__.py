@@ -1,14 +1,8 @@
 import aiohttp
 import asyncio
-import argparse
 
 from aurchk.checker import checker
 from aurchk.cfgLoad import cfgLoad
-
-# Parse arguments from command line stdin.
-argParser = argparse.ArgumentParser(description='Check AUR update.')
-argParser.add_argument('-c', '--config', type=str, help='Manually set the path to the config file.', nargs='?')
-args = argParser.parse_args()
 
 # Fetch package info from AUR, and return the dictionary converted from json.
 async def fetch(session, pkgname):
@@ -17,7 +11,7 @@ async def fetch(session, pkgname):
 
 async def main():
     # Check package update with coroutines.
-    pkgListPath, pkgClonePath, oldVerDict = await cfgLoad(args)
+    pkgListPath, pkgClonePath, oldVerDict = await cfgLoad()
 
     chk = checker(pkgListPath, pkgClonePath, oldVerDict)
     
