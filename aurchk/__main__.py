@@ -1,7 +1,6 @@
 import aiohttp
 import asyncio
 import argparse
-from pathlib import Path
 
 from aurchk.checker import checker
 from aurchk.cfgLoad import cfgLoad
