@@ -1,9 +1,5 @@
-#!/usr/bin/env python3.8
 import aiohttp
 import asyncio
-import pyalpm
-import json
-import git
 import argparse
 from pathlib import Path
 
