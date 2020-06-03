@@ -1,7 +1,7 @@
 # Maintainer: OriginCode <self@origincode.me>
 
 pkgname=python-aurchk-git
-_pkgname=aurchk
+_pkgname=aurchecker
 pkgver=r12.50a5247
 pkgrel=1
 pkgdesc="A simple tool to check updates for AUR packages."
