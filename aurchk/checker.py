@@ -1,8 +1,8 @@
 import json
-import git
 import pyalpm
 import asyncio
 from pathlib import Path
+from git.cmd import Git
 from termcolor import colored
 
 # Use vercmp from pyalpm to compare the old version and the new version fetched.
@@ -30,10 +30,10 @@ class checker():
             print(pkgname + ': ' + colored(self.oldVerDict[pkgname], 'red', attrs=['bold']) + colored(' => ', 'white', attrs=['bold']) + colored(self.newVerDict[pkgname], 'green', attrs=['bold']))
             
             if (pkgPath := self.pkgClonePath.joinpath(pkgname)).exists():
-                git.cmd.Git(pkgPath).pull()
+                Git(pkgPath).pull()
                 print(colored('Updated the repo of ', 'green') + pkgname)
             else:
-                git.cmd.Git(self.pkgClonePath).clone("https://aur.archlinux.org/{pkgname}.git".format(pkgname=pkgname))
+                Git(self.pkgClonePath).clone("https://aur.archlinux.org/{pkgname}.git".format(pkgname=pkgname))
                 print(colored('Cloned the repo of ', 'cyan') + pkgname)
 
             with open(self.pkgListPath, 'w') as f:
